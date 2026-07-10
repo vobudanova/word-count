@@ -13,13 +13,18 @@
  *
  * @wordpress-plugin
  * Plugin Name:       100 слов
+ * Plugin URI:        https://github.com/vobudanova/word-count
  * Description:       Отвечаю за слова
  * Version:           7
  * Author:            Гуф
+ * Author URI:        https://github.com/vobudanova
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       reading-time-word-count-block-for-post
  * Domain Path:       /languages
+ * Requires at least: 5.0
+ * Requires PHP:      7.2
+ * Update URI:        false
  */
 
 // If this file is called directly, abort.
