@@ -1,10 +1,10 @@
 === 100 слов ===
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 7.0.1
 Requires PHP: 7.2
 Stable tag: 7
-License: GPLv2 или новее
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: WTFPL
+License URI: http://www.wtfpl.net/
 
 Отвечаю за слова.
 

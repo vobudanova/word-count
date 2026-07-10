@@ -18,11 +18,12 @@
  * Version:           7
  * Author:            Гуф
  * Author URI:        https://github.com/vobudanova
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           WTFPL
+ * License URI:       http://www.wtfpl.net/
  * Text Domain:       reading-time-word-count-block-for-post
  * Domain Path:       /languages
  * Requires at least: 5.0
+ * Tested up to:      7.0.1
  * Requires PHP:      7.2
  * Update URI:        false
  */
