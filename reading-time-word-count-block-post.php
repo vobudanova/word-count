@@ -15,7 +15,7 @@
  * Plugin Name:       100 слов
  * Plugin URI:        https://github.com/vobudanova/word-count
  * Description:       Отвечаю за слова
- * Version:           7
+ * Version:           8
  * Author:            Виктория и Олег
  * Author URI:        https://github.com/vobudanova
  * License:           WTFPL
@@ -38,7 +38,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'RTWCBFP_PLUGIN_VERSION', '7' );
+define( 'RTWCBFP_PLUGIN_VERSION', '8' );
 
 /**
  * The plugin basename (e.g. "my-plugin/my-plugin.php").
