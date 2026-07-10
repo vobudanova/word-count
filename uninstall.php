@@ -3,23 +3,11 @@
 /**
  * Fired when the plugin is uninstalled.
  *
- * When populating this file, consider the following flow
- * of control:
+ * Removes all data the plugin stores: the global display option and every
+ * per-post display override.
  *
- * - This method should be static
- * - Check if the $_REQUEST content actually is the plugin name
- * - Run an admin referrer check to make sure it goes through authentication
- * - Verify the output of $_GET makes sense
- * - Repeat with other user roles. Best directly by using the links/query string parameters.
- * - Repeat things for multisite. Once for a single site in the network, once sitewide.
- *
- * This file may be updated more in future version of the Boilerplate; however, this is the
- * general skeleton and outline for how the file should work.
- *
- * For more information, see the following discussion:
- * @since      1.0.0
- *
- * @package    Reading_Time_Word_Count_Block_Post
+ * @since   1.0.0
+ * @package Reading_Time_Word_Count_Block_Post
  */
 
 // If this file is called directly, abort.
