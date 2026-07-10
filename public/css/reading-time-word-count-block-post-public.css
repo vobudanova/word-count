@@ -1,0 +1,36 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/* Wrapper for the reading time and word count display */
+.count-word-wrapper p {
+    margin: 0 0;              /* Adds space above the paragraph */
+    padding: 0;                   /* Removes default padding */
+    font-size: 16px;           /* Inherits font size from parent */
+    color: inherit;               /* Inherits text color from parent */
+    line-height: 24px;         /* Inherits line height for consistency */
+    font-weight: normal;          /* Normal font weight (not bold) */
+    text-align: left;             /* Aligns text to the left */
+    text-decoration: none;        /* Removes underline or other decorations */
+    text-transform: none;         /* Keeps the original text case */
+    letter-spacing: normal;       /* Default spacing between letters */
+    word-spacing: normal;         /* Default spacing between words */
+    text-shadow: none;            /* No text shadow effect */
+}
+
+
+.post-navigation-link-previous .count-word-wrapper{
+    display: none !important; /* Hides the previous post link */
+}
+.wp-block-post-navigation-link .count-word-wrapper{
+    display: none; /* Hides the next post link */
+}
+
+
+.post-navigation-link-next  .count-word-wrapper{
+    display: none !important; /* Hides the previous post link */
+}
+.wp-block-post-navigation-link .count-word-wrapper{
+    display: none; /* Hides the next post link */
+}
