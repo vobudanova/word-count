@@ -1,0 +1,117 @@
+# Copyright (C) 2026
+# This file is distributed under the GPL-2.0+ license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Reading Time & Word Count 7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-10 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Domain: reading-time-word-count-block-for-post\n"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Reading Time and Word Count"
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Reading Time"
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Settings"
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Save settings?"
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Invalid security token."
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Settings saved successfully."
+msgstr ""
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "No changes were made to the settings."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Reading Time and Word Count Settings"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Here you can configure how and where the reading time and word count block is shown."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show word count"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Yes"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show after the title"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show before the content"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "On a single post page, the block is shown before the main text."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show on the home page and archives"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "On listing pages, the block is shown before the excerpt (the_excerpt)."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show in related posts"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Save Changes"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Note:"
+msgstr ""
+
+#. translators: %s: the [reading_time] shortcode wrapped in a <code> tag.
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "you can also insert the block manually via the %s shortcode."
+msgstr ""
+
+#. translators: %s: reading time in minutes.
+#: public/partials/reading-time-word-count-block-post-public-display.php
+msgid "%s min read"
+msgstr ""
+
+#. translators: %s: number of words.
+#: public/partials/reading-time-word-count-block-post-public-display.php
+msgid "%s word"
+msgid_plural "%s words"
+msgstr[0] ""
+msgstr[1] ""

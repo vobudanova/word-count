@@ -40,7 +40,7 @@ class Reading_Time_Word_Count_Block_Post_i18n
     {
 
         load_plugin_textdomain(
-            'reading-time-word-count-block-post',
+            'reading-time-word-count-block-for-post',
             false,
             dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );

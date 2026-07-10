@@ -53,38 +53,26 @@ $content      = html_entity_decode( $content, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 $word_count   = preg_match_all( '/[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*/u', $content );
 $reading_time = max( 1, (int) ceil( $word_count / 200 ) ); // Average reading speed: 200 WPM
 
-// Russian pluralization: pick one of three forms based on grammatical number.
-if ( ! function_exists( 'rtwcbfp_plural_ru' ) ) {
-    function rtwcbfp_plural_ru( $n, $one, $few, $many ) {
-        $n    = abs( (int) $n );
-        $n100 = $n % 100;
-        $n10  = $n % 10;
-        if ( $n100 >= 11 && $n100 <= 14 ) {
-            return $many;
-        }
-        if ( 1 === $n10 ) {
-            return $one;
-        }
-        if ( $n10 >= 2 && $n10 <= 4 ) {
-            return $few;
-        }
-        return $many;
-    }
-}
-
-// Russian number formatting: thousands separated by U+202F (NARROW NO-BREAK SPACE).
-if ( ! function_exists( 'rtwcbfp_format_int_ru' ) ) {
-    function rtwcbfp_format_int_ru( $n ) {
-        return number_format( (int) $n, 0, '', "\u{202F}" );
-    }
-}
-
+// Numbers and word forms are localized via gettext:
+//   - number_format_i18n() applies the active locale's thousands separator
+//     (comma for en_US, space for ru_RU).
+//   - _n() picks the correct plural form per locale — 2 forms for English,
+//     3 for Russian (defined by the Plural-Forms header of the .po file).
 ?>
 <!-- Reading Time & Word Count Display Block -->
 <div class="count-word-wrapper" style="margin-bottom: 10px; font-size: 0.9em; color: #555;">
-    <p><b><?php echo esc_html( rtwcbfp_format_int_ru( $reading_time ) ); ?> мин.</b></p>
+    <p><b><?php
+        /* translators: %s: reading time in minutes. */
+        echo esc_html( sprintf( __( '%s min read', 'reading-time-word-count-block-for-post' ), number_format_i18n( $reading_time ) ) );
+    ?></b></p>
 
     <?php if ( 'yes' === $show_word_count ) : ?>
-        <p><?php echo esc_html( rtwcbfp_format_int_ru( $word_count ) . ' ' . rtwcbfp_plural_ru( $word_count, 'слово', 'слова', 'слов' ) ); ?></p>
+        <p><?php
+            printf(
+                /* translators: %s: number of words. */
+                esc_html( _n( '%s word', '%s words', $word_count, 'reading-time-word-count-block-for-post' ) ),
+                esc_html( number_format_i18n( $word_count ) )
+            );
+        ?></p>
     <?php endif; ?>
 </div>

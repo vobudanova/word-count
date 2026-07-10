@@ -27,8 +27,8 @@ $show_in_related   = get_option( 'rtwcbfp_show_in_related', 'no' );
 
 <div id="wpbody" role="main">
    <div id="wpbody-content">
-      <h1 class="wp-heading-inline">Настройки времени чтения и количества слов</h1>
-      <p>Здесь можно настроить, как и где выводится блок со временем чтения и количеством слов.</p>
+      <h1 class="wp-heading-inline"><?php esc_html_e( 'Reading Time and Word Count Settings', 'reading-time-word-count-block-for-post' ); ?></h1>
+      <p><?php esc_html_e( 'Here you can configure how and where the reading time and word count block is shown.', 'reading-time-word-count-block-for-post' ); ?></p>
 
       <form id="rtwcbfp-settings-form">
          <?php wp_nonce_field( 'rtwcbfp_settings_nonce', 'rtwcbfp_settings_nonce_field' ); ?>
@@ -37,65 +37,74 @@ $show_in_related   = get_option( 'rtwcbfp_show_in_related', 'no' );
             <tbody>
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_word_count">Показывать количество слов</label>
+                     <label for="rtwcbfp_show_word_count"><?php esc_html_e( 'Show word count', 'reading-time-word-count-block-for-post' ); ?></label>
                   </th>
                   <td>
                      <input type="checkbox" name="rtwcbfp_show_word_count" id="rtwcbfp_show_word_count" value="yes" <?php checked( $show_word_count, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_word_count">Да</label>
+                     <label for="rtwcbfp_show_word_count"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
                   </td>
                </tr>
 
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_with_title">Показывать после заголовка</label>
+                     <label for="rtwcbfp_show_with_title"><?php esc_html_e( 'Show after the title', 'reading-time-word-count-block-for-post' ); ?></label>
                   </th>
                   <td>
                      <input type="checkbox" name="rtwcbfp_show_with_title" id="rtwcbfp_show_with_title" value="yes" <?php checked( $show_with_title, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_with_title">Да</label>
+                     <label for="rtwcbfp_show_with_title"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
                   </td>
                </tr>
 
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_with_content">Показывать перед контентом</label>
+                     <label for="rtwcbfp_show_with_content"><?php esc_html_e( 'Show before the content', 'reading-time-word-count-block-for-post' ); ?></label>
                   </th>
                   <td>
                      <input type="checkbox" name="rtwcbfp_show_with_content" id="rtwcbfp_show_with_content" value="yes" <?php checked( $show_with_content, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_with_content">Да</label>
-                     <p class="description">На странице самого поста блок выводится перед основным текстом.</p>
+                     <label for="rtwcbfp_show_with_content"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
+                     <p class="description"><?php esc_html_e( 'On a single post page, the block is shown before the main text.', 'reading-time-word-count-block-for-post' ); ?></p>
                   </td>
                </tr>
 
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_on_listing">Показывать на главной и в архивах</label>
+                     <label for="rtwcbfp_show_on_listing"><?php esc_html_e( 'Show on the home page and archives', 'reading-time-word-count-block-for-post' ); ?></label>
                   </th>
                   <td>
                      <input type="checkbox" name="rtwcbfp_show_on_listing" id="rtwcbfp_show_on_listing" value="yes" <?php checked( $show_on_listing, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_on_listing">Да</label>
-                     <p class="description">На страницах со списком постов блок выводится перед отрывком (the_excerpt).</p>
+                     <label for="rtwcbfp_show_on_listing"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
+                     <p class="description"><?php esc_html_e( 'On listing pages, the block is shown before the excerpt (the_excerpt).', 'reading-time-word-count-block-for-post' ); ?></p>
                   </td>
                </tr>
 
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_in_related">Показывать в связанных постах</label>
+                     <label for="rtwcbfp_show_in_related"><?php esc_html_e( 'Show in related posts', 'reading-time-word-count-block-for-post' ); ?></label>
                   </th>
                   <td>
                      <input type="checkbox" name="rtwcbfp_show_in_related" id="rtwcbfp_show_in_related" value="yes" <?php checked( $show_in_related, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_in_related">Да</label>
-                     <p class="description">Если включено, блок выводится также рядом с ссылками на другие посты (виджет «Похожие записи» и т.&nbsp;п.). По&nbsp;умолчанию выключено: блок показывается только на самой странице поста.</p>
+                     <label for="rtwcbfp_show_in_related"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
+                     <p class="description"><?php esc_html_e( 'When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself.', 'reading-time-word-count-block-for-post' ); ?></p>
                   </td>
                </tr>
             </tbody>
          </table>
 
-         <?php submit_button( 'Сохранить изменения', 'primary', 'submit', true, array( 'id' => 'rtwcbfp-settings-submit' ) ); ?>
+         <?php submit_button( __( 'Save Changes', 'reading-time-word-count-block-for-post' ), 'primary', 'submit', true, array( 'id' => 'rtwcbfp-settings-submit' ) ); ?>
       </form>
 
       <p>
-         <strong>Примечание:</strong>
-         также можно вставить блок вручную через шорткод <code>[reading_time]</code>.
+         <strong><?php esc_html_e( 'Note:', 'reading-time-word-count-block-for-post' ); ?></strong>
+         <?php
+         echo wp_kses(
+            sprintf(
+               /* translators: %s: the [reading_time] shortcode wrapped in a <code> tag. */
+               __( 'you can also insert the block manually via the %s shortcode.', 'reading-time-word-count-block-for-post' ),
+               '<code>[reading_time]</code>'
+            ),
+            array( 'code' => array() )
+         );
+         ?>
       </p>
       <div id="rtwcbfp-settings-message"></div>
    </div>

@@ -32,7 +32,11 @@
       $("#rtwcbfp-settings-submit").on("click", function (e) {
          e.preventDefault();
 
-         if (!confirm("Сохранить настройки?")) {
+         var confirmMsg =
+            typeof rtwcbfp_i18n !== "undefined" && rtwcbfp_i18n.confirmSave
+               ? rtwcbfp_i18n.confirmSave
+               : "Save settings?";
+         if (!confirm(confirmMsg)) {
             return; // Cancelled by user
          }
 

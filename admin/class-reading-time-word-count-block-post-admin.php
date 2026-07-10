@@ -105,14 +105,22 @@ class Reading_Time_Word_Count_Block_Post_Admin
 
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/reading-time-word-count-block-post-admin.js', array('jquery'), $this->version, false);
 
+        wp_localize_script(
+            $this->plugin_name,
+            'rtwcbfp_i18n',
+            array(
+                'confirmSave' => __('Save settings?', 'reading-time-word-count-block-for-post'),
+            )
+        );
+
     }
 
 
     public function add_admin_menu()
     {
         add_menu_page(
-            'Время чтения и количество слов', // Page title
-            'Время чтения',                    // Menu title
+            __('Reading Time and Word Count', 'reading-time-word-count-block-for-post'), // Page title
+            __('Reading Time', 'reading-time-word-count-block-for-post'),                 // Menu title
             'manage_options',                   // Capability
             'rtwcbfp-settings',                 // Menu slug - using unique prefix
             array($this, 'display_admin_page'), // Callback function
@@ -141,7 +149,7 @@ class Reading_Time_Word_Count_Block_Post_Admin
         $settings_link = sprintf(
             '<a href="%s">%s</a>',
             esc_url(admin_url('admin.php?page=rtwcbfp-settings')),
-            esc_html__('Настройки', 'reading-time-word-count-block-for-post')
+            esc_html__('Settings', 'reading-time-word-count-block-for-post')
         );
 
         array_unshift($links, $settings_link);
@@ -157,14 +165,14 @@ class Reading_Time_Word_Count_Block_Post_Admin
 
     public function save_settings() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( array( 'message' => 'У вас нет прав на это действие.' ) );
+            wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'reading-time-word-count-block-for-post' ) ) );
         }
 
         if (
             ! isset( $_POST['nonce'] ) ||
             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'rtwcbfp_settings_nonce' )
         ) {
-            wp_send_json_error( array( 'message' => 'Недействительный токен безопасности.' ) );
+            wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'reading-time-word-count-block-for-post' ) ) );
         }
 
         $word_count   = isset( $_POST['rtwcbfp_show_word_count'] )   && $_POST['rtwcbfp_show_word_count']   === 'yes' ? 'yes' : 'no';
@@ -180,9 +188,9 @@ class Reading_Time_Word_Count_Block_Post_Admin
         $updated_in_related   = update_option( 'rtwcbfp_show_in_related',   $in_related );
 
         if ( $updated_word_count || $updated_with_title || $updated_with_content || $updated_on_listing || $updated_in_related ) {
-            wp_send_json_success( array( 'message' => 'Настройки успешно сохранены.' ) );
+            wp_send_json_success( array( 'message' => __( 'Settings saved successfully.', 'reading-time-word-count-block-for-post' ) ) );
         } else {
-            wp_send_json_error( array( 'message' => 'Настройки не изменились.' ) );
+            wp_send_json_error( array( 'message' => __( 'No changes were made to the settings.', 'reading-time-word-count-block-for-post' ) ) );
         }
     }
 

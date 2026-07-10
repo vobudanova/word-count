@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Reading Time & Word Count 7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-10 00:00+0000\n"
+"PO-Revision-Date: 2026-07-10 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Domain: reading-time-word-count-block-for-post\n"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Reading Time and Word Count"
+msgstr "Время чтения и количество слов"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Reading Time"
+msgstr "Время чтения"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Settings"
+msgstr "Настройки"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Save settings?"
+msgstr "Сохранить настройки?"
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "You do not have permission to perform this action."
+msgstr "У вас нет прав на это действие."
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Invalid security token."
+msgstr "Недействительный токен безопасности."
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "Settings saved successfully."
+msgstr "Настройки успешно сохранены."
+
+#: admin/class-reading-time-word-count-block-post-admin.php
+msgid "No changes were made to the settings."
+msgstr "Настройки не изменились."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Reading Time and Word Count Settings"
+msgstr "Настройки времени чтения и количества слов"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Here you can configure how and where the reading time and word count block is shown."
+msgstr "Здесь можно настроить, как и где выводится блок со временем чтения и количеством слов."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show word count"
+msgstr "Показывать количество слов"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Yes"
+msgstr "Да"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show after the title"
+msgstr "Показывать после заголовка"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show before the content"
+msgstr "Показывать перед контентом"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "On a single post page, the block is shown before the main text."
+msgstr "На странице самого поста блок выводится перед основным текстом."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show on the home page and archives"
+msgstr "Показывать на главной и в архивах"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "On listing pages, the block is shown before the excerpt (the_excerpt)."
+msgstr "На страницах со списком постов блок выводится перед отрывком (the_excerpt)."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Show in related posts"
+msgstr "Показывать в связанных постах"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself."
+msgstr "Если включено, блок выводится также рядом со ссылками на другие посты (виджет «Похожие записи» и т. п.). По умолчанию выключено: блок показывается только на самой странице поста."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Note:"
+msgstr "Примечание:"
+
+#. translators: %s: the [reading_time] shortcode wrapped in a <code> tag.
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "you can also insert the block manually via the %s shortcode."
+msgstr "также можно вставить блок вручную через шорткод %s."
+
+#. translators: %s: reading time in minutes.
+#: public/partials/reading-time-word-count-block-post-public-display.php
+msgid "%s min read"
+msgstr "%s мин."
+
+#. translators: %s: number of words.
+#: public/partials/reading-time-word-count-block-post-public-display.php
+msgid "%s word"
+msgid_plural "%s words"
+msgstr[0] "%s слово"
+msgstr[1] "%s слова"
+msgstr[2] "%s слов"
