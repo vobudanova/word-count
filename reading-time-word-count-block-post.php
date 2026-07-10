@@ -16,7 +16,7 @@
  * Plugin URI:        https://github.com/vobudanova/word-count
  * Description:       Отвечаю за слова
  * Version:           7
- * Author:            Гуф
+ * Author:            Виктория и Олег
  * Author URI:        https://github.com/vobudanova
  * License:           WTFPL
  * License URI:       http://www.wtfpl.net/
