@@ -41,53 +41,73 @@ msgstr "Недействительный токен безопасности."
 msgid "Settings saved successfully."
 msgstr "Настройки успешно сохранены."
 
-#: admin/class-reading-time-word-count-block-post-admin.php
-msgid "No changes were made to the settings."
-msgstr "Настройки не изменились."
-
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
 msgid "Reading Time and Word Count Settings"
 msgstr "Настройки времени чтения и количества слов"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Here you can configure how and where the reading time and word count block is shown."
-msgstr "Здесь можно настроить, как и где выводится блок со временем чтения и количеством слов."
+msgid "Choose what to show in each location. Individual posts and pages can override this in the editor."
+msgstr "Выберите, что показывать в каждом месте. Для отдельных записей и страниц это можно переопределить в редакторе."
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show word count"
-msgstr "Показывать количество слов"
+msgid "After the post title"
+msgstr "После заголовка поста"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Yes"
-msgstr "Да"
+msgid "On a single post page, right after its title."
+msgstr "На странице одиночного поста, сразу после заголовка."
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show after the title"
-msgstr "Показывать после заголовка"
+msgid "In the post body"
+msgstr "В теле поста"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show before the content"
-msgstr "Показывать перед контентом"
+msgid "On a single post page, before the main text."
+msgstr "На странице одиночного поста, перед основным текстом."
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "On a single post page, the block is shown before the main text."
-msgstr "На странице самого поста блок выводится перед основным текстом."
+msgid "In the page body"
+msgstr "В теле страницы"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show on the home page and archives"
-msgstr "Показывать на главной и в архивах"
+msgid "On a single page, before the main text."
+msgstr "На одиночной странице, перед основным текстом."
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "On listing pages, the block is shown before the excerpt (the_excerpt)."
-msgstr "На страницах со списком постов блок выводится перед отрывком (the_excerpt)."
+msgid "In listings and archives"
+msgstr "В списках и архивах"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show in related posts"
-msgstr "Показывать в связанных постах"
+msgid "On the home page, archives and search, before each post excerpt."
+msgstr "На главной, в архивах и поиске — перед анонсом каждого поста."
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself."
-msgstr "Если включено, блок выводится также рядом со ссылками на другие посты (виджет «Похожие записи» и т. п.). По умолчанию выключено: блок показывается только на самой странице поста."
+msgid "In related posts"
+msgstr "В связанных постах"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Next to post titles rendered inside secondary loops (e.g. a “Related posts” widget)."
+msgstr "Рядом с заголовками записей во вложенных циклах (например, виджет «Похожие записи»)."
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Do not show"
+msgstr "Не показывать"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading time only"
+msgstr "Только время чтения"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Word count only"
+msgstr "Только количество слов"
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading time + word count"
+msgstr "Время чтения + количество слов"
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
 msgid "Save Changes"
@@ -101,6 +121,14 @@ msgstr "Примечание:"
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
 msgid "you can also insert the block manually via the %s shortcode."
 msgstr "также можно вставить блок вручную через шорткод %s."
+
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading-time block for this post:"
+msgstr "Блок времени чтения для этой записи:"
+
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Default (use global settings)"
+msgstr "По умолчанию (использовать глобальные настройки)"
 
 #. translators: %s: reading time in minutes.
 #: public/partials/reading-time-word-count-block-post-public-display.php

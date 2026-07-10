@@ -16,96 +16,86 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Retrieve current settings
-$show_word_count   = get_option( 'rtwcbfp_show_word_count', 'yes' );
-$show_with_title   = get_option( 'rtwcbfp_show_with_title', 'yes' );
-$show_with_content = get_option( 'rtwcbfp_show_with_content', 'yes' );
-$show_on_listing   = get_option( 'rtwcbfp_show_on_listing', 'yes' );
-$show_in_related   = get_option( 'rtwcbfp_show_in_related', 'no' );
+// Current global display matrix (placement => mode), filled with defaults.
+$rtwcbfp_settings = Reading_Time_Word_Count_Block_Post::get_display_settings();
+
+// The five placements, in display order, with a user-facing label + description.
+$rtwcbfp_rows = array(
+   'post_title' => array(
+      'label' => __( 'After the post title', 'reading-time-word-count-block-for-post' ),
+      'desc'  => __( 'On a single post page, right after its title.', 'reading-time-word-count-block-for-post' ),
+   ),
+   'post_body'  => array(
+      'label' => __( 'In the post body', 'reading-time-word-count-block-for-post' ),
+      'desc'  => __( 'On a single post page, before the main text.', 'reading-time-word-count-block-for-post' ),
+   ),
+   'page_body'  => array(
+      'label' => __( 'In the page body', 'reading-time-word-count-block-for-post' ),
+      'desc'  => __( 'On a single page, before the main text.', 'reading-time-word-count-block-for-post' ),
+   ),
+   'excerpt'    => array(
+      'label' => __( 'In listings and archives', 'reading-time-word-count-block-for-post' ),
+      'desc'  => __( 'On the home page, archives and search, before each post excerpt.', 'reading-time-word-count-block-for-post' ),
+   ),
+   'related'    => array(
+      'label' => __( 'In related posts', 'reading-time-word-count-block-for-post' ),
+      'desc'  => __( 'Next to post titles rendered inside secondary loops (e.g. a “Related posts” widget).', 'reading-time-word-count-block-for-post' ),
+   ),
+);
+
+// The four display modes offered for every placement.
+$rtwcbfp_modes = array(
+   'none'  => __( 'Do not show', 'reading-time-word-count-block-for-post' ),
+   'time'  => __( 'Reading time only', 'reading-time-word-count-block-for-post' ),
+   'words' => __( 'Word count only', 'reading-time-word-count-block-for-post' ),
+   'both'  => __( 'Reading time + word count', 'reading-time-word-count-block-for-post' ),
+);
 
 ?>
 
-<div id="wpbody" role="main">
-   <div id="wpbody-content">
-      <h1 class="wp-heading-inline"><?php esc_html_e( 'Reading Time and Word Count Settings', 'reading-time-word-count-block-for-post' ); ?></h1>
-      <p><?php esc_html_e( 'Here you can configure how and where the reading time and word count block is shown.', 'reading-time-word-count-block-for-post' ); ?></p>
+<div class="wrap">
+   <h1 class="wp-heading-inline"><?php esc_html_e( 'Reading Time and Word Count Settings', 'reading-time-word-count-block-for-post' ); ?></h1>
+   <p><?php esc_html_e( 'Choose what to show in each location. Individual posts and pages can override this in the editor.', 'reading-time-word-count-block-for-post' ); ?></p>
 
-      <form id="rtwcbfp-settings-form">
-         <?php wp_nonce_field( 'rtwcbfp_settings_nonce', 'rtwcbfp_settings_nonce_field' ); ?>
+   <form id="rtwcbfp-settings-form">
+      <?php wp_nonce_field( 'rtwcbfp_settings_nonce', 'rtwcbfp_settings_nonce_field' ); ?>
 
-         <table class="form-table" role="presentation">
-            <tbody>
+      <table class="form-table" role="presentation">
+         <tbody>
+            <?php foreach ( $rtwcbfp_rows as $rtwcbfp_key => $rtwcbfp_row ) : ?>
+               <?php $rtwcbfp_current = isset( $rtwcbfp_settings[ $rtwcbfp_key ] ) ? $rtwcbfp_settings[ $rtwcbfp_key ] : 'none'; ?>
                <tr>
                   <th scope="row">
-                     <label for="rtwcbfp_show_word_count"><?php esc_html_e( 'Show word count', 'reading-time-word-count-block-for-post' ); ?></label>
+                     <label for="rtwcbfp_display_<?php echo esc_attr( $rtwcbfp_key ); ?>"><?php echo esc_html( $rtwcbfp_row['label'] ); ?></label>
                   </th>
                   <td>
-                     <input type="checkbox" name="rtwcbfp_show_word_count" id="rtwcbfp_show_word_count" value="yes" <?php checked( $show_word_count, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_word_count"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
+                     <select name="rtwcbfp_display[<?php echo esc_attr( $rtwcbfp_key ); ?>]" id="rtwcbfp_display_<?php echo esc_attr( $rtwcbfp_key ); ?>">
+                        <?php foreach ( $rtwcbfp_modes as $rtwcbfp_mode_key => $rtwcbfp_mode_label ) : ?>
+                           <option value="<?php echo esc_attr( $rtwcbfp_mode_key ); ?>" <?php selected( $rtwcbfp_current, $rtwcbfp_mode_key ); ?>><?php echo esc_html( $rtwcbfp_mode_label ); ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                     <p class="description"><?php echo esc_html( $rtwcbfp_row['desc'] ); ?></p>
                   </td>
                </tr>
+            <?php endforeach; ?>
+         </tbody>
+      </table>
 
-               <tr>
-                  <th scope="row">
-                     <label for="rtwcbfp_show_with_title"><?php esc_html_e( 'Show after the title', 'reading-time-word-count-block-for-post' ); ?></label>
-                  </th>
-                  <td>
-                     <input type="checkbox" name="rtwcbfp_show_with_title" id="rtwcbfp_show_with_title" value="yes" <?php checked( $show_with_title, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_with_title"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
-                  </td>
-               </tr>
+      <?php submit_button( __( 'Save Changes', 'reading-time-word-count-block-for-post' ), 'primary', 'submit', true, array( 'id' => 'rtwcbfp-settings-submit' ) ); ?>
+   </form>
 
-               <tr>
-                  <th scope="row">
-                     <label for="rtwcbfp_show_with_content"><?php esc_html_e( 'Show before the content', 'reading-time-word-count-block-for-post' ); ?></label>
-                  </th>
-                  <td>
-                     <input type="checkbox" name="rtwcbfp_show_with_content" id="rtwcbfp_show_with_content" value="yes" <?php checked( $show_with_content, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_with_content"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
-                     <p class="description"><?php esc_html_e( 'On a single post page, the block is shown before the main text.', 'reading-time-word-count-block-for-post' ); ?></p>
-                  </td>
-               </tr>
-
-               <tr>
-                  <th scope="row">
-                     <label for="rtwcbfp_show_on_listing"><?php esc_html_e( 'Show on the home page and archives', 'reading-time-word-count-block-for-post' ); ?></label>
-                  </th>
-                  <td>
-                     <input type="checkbox" name="rtwcbfp_show_on_listing" id="rtwcbfp_show_on_listing" value="yes" <?php checked( $show_on_listing, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_on_listing"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
-                     <p class="description"><?php esc_html_e( 'On listing pages, the block is shown before the excerpt (the_excerpt).', 'reading-time-word-count-block-for-post' ); ?></p>
-                  </td>
-               </tr>
-
-               <tr>
-                  <th scope="row">
-                     <label for="rtwcbfp_show_in_related"><?php esc_html_e( 'Show in related posts', 'reading-time-word-count-block-for-post' ); ?></label>
-                  </th>
-                  <td>
-                     <input type="checkbox" name="rtwcbfp_show_in_related" id="rtwcbfp_show_in_related" value="yes" <?php checked( $show_in_related, 'yes' ); ?> />
-                     <label for="rtwcbfp_show_in_related"><?php esc_html_e( 'Yes', 'reading-time-word-count-block-for-post' ); ?></label>
-                     <p class="description"><?php esc_html_e( 'When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself.', 'reading-time-word-count-block-for-post' ); ?></p>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-
-         <?php submit_button( __( 'Save Changes', 'reading-time-word-count-block-for-post' ), 'primary', 'submit', true, array( 'id' => 'rtwcbfp-settings-submit' ) ); ?>
-      </form>
-
-      <p>
-         <strong><?php esc_html_e( 'Note:', 'reading-time-word-count-block-for-post' ); ?></strong>
-         <?php
-         echo wp_kses(
-            sprintf(
-               /* translators: %s: the [reading_time] shortcode wrapped in a <code> tag. */
-               __( 'you can also insert the block manually via the %s shortcode.', 'reading-time-word-count-block-for-post' ),
-               '<code>[reading_time]</code>'
-            ),
-            array( 'code' => array() )
-         );
-         ?>
-      </p>
-      <div id="rtwcbfp-settings-message"></div>
-   </div>
+   <p>
+      <strong><?php esc_html_e( 'Note:', 'reading-time-word-count-block-for-post' ); ?></strong>
+      <?php
+      echo wp_kses(
+         sprintf(
+            /* translators: %s: the [reading_time] shortcode wrapped in a <code> tag. */
+            __( 'you can also insert the block manually via the %s shortcode.', 'reading-time-word-count-block-for-post' ),
+            '<code>[reading_time]</code>'
+         ),
+         array( 'code' => array() )
+      );
+      ?>
+   </p>
+   <div id="rtwcbfp-settings-message"></div>
 </div>

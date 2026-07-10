@@ -35,10 +35,8 @@ class Reading_Time_Word_Count_Block_Post_Deactivator
      */
     public static function deactivate()
     {
-        // Delete options
-        delete_option('rtwcbfp_show_word_count');
-        delete_option('rtwcbfp_show_with_title');
-        delete_option('rtwcbfp_show_with_content');
+        // Intentionally left empty. User settings must survive deactivation
+        // (e.g. during an update); permanent cleanup belongs in uninstall.php.
     }
 
 }

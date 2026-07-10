@@ -43,52 +43,72 @@ msgstr ""
 msgid "Settings saved successfully."
 msgstr ""
 
-#: admin/class-reading-time-word-count-block-post-admin.php
-msgid "No changes were made to the settings."
-msgstr ""
-
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
 msgid "Reading Time and Word Count Settings"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Here you can configure how and where the reading time and word count block is shown."
+msgid "Choose what to show in each location. Individual posts and pages can override this in the editor."
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show word count"
+msgid "After the post title"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Yes"
+msgid "On a single post page, right after its title."
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show after the title"
+msgid "In the post body"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show before the content"
+msgid "On a single post page, before the main text."
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "On a single post page, the block is shown before the main text."
+msgid "In the page body"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show on the home page and archives"
+msgid "On a single page, before the main text."
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "On listing pages, the block is shown before the excerpt (the_excerpt)."
+msgid "In listings and archives"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "Show in related posts"
+msgid "On the home page, archives and search, before each post excerpt."
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
-msgid "When enabled, the block is also shown next to links to other posts (the “Related posts” widget, etc.). Disabled by default: the block is shown only on the post page itself."
+msgid "In related posts"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+msgid "Next to post titles rendered inside secondary loops (e.g. a “Related posts” widget)."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Do not show"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading time only"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Word count only"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-admin-display.php
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading time + word count"
 msgstr ""
 
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
@@ -102,6 +122,14 @@ msgstr ""
 #. translators: %s: the [reading_time] shortcode wrapped in a <code> tag.
 #: admin/partials/reading-time-word-count-block-post-admin-display.php
 msgid "you can also insert the block manually via the %s shortcode."
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Reading-time block for this post:"
+msgstr ""
+
+#: admin/partials/reading-time-word-count-block-post-metabox.php
+msgid "Default (use global settings)"
 msgstr ""
 
 #. translators: %s: reading time in minutes.

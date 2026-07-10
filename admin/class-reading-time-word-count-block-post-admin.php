@@ -157,12 +157,6 @@ class Reading_Time_Word_Count_Block_Post_Admin
         return $links;
     }
 
-
-    public function register_ajax_hooks()
-    {
-        add_action('wp_ajax_rtwcbfp_save_settings', array($this, 'save_settings'));
-    }
-
     public function save_settings() {
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'reading-time-word-count-block-for-post' ) ) );
@@ -175,22 +169,85 @@ class Reading_Time_Word_Count_Block_Post_Admin
             wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'reading-time-word-count-block-for-post' ) ) );
         }
 
-        $word_count   = isset( $_POST['rtwcbfp_show_word_count'] )   && $_POST['rtwcbfp_show_word_count']   === 'yes' ? 'yes' : 'no';
-        $with_title   = isset( $_POST['rtwcbfp_show_with_title'] )   && $_POST['rtwcbfp_show_with_title']   === 'yes' ? 'yes' : 'no';
-        $with_content = isset( $_POST['rtwcbfp_show_with_content'] ) && $_POST['rtwcbfp_show_with_content'] === 'yes' ? 'yes' : 'no';
-        $on_listing   = isset( $_POST['rtwcbfp_show_on_listing'] )   && $_POST['rtwcbfp_show_on_listing']   === 'yes' ? 'yes' : 'no';
-        $in_related   = isset( $_POST['rtwcbfp_show_in_related'] )   && $_POST['rtwcbfp_show_in_related']   === 'yes' ? 'yes' : 'no';
+        $defaults = Reading_Time_Word_Count_Block_Post::default_display_settings();
+        $valid    = Reading_Time_Word_Count_Block_Post::valid_modes();
+        $input    = isset( $_POST['rtwcbfp_display'] ) && is_array( $_POST['rtwcbfp_display'] )
+            ? wp_unslash( $_POST['rtwcbfp_display'] )
+            : array();
 
-        $updated_word_count   = update_option( 'rtwcbfp_show_word_count',   $word_count );
-        $updated_with_title   = update_option( 'rtwcbfp_show_with_title',   $with_title );
-        $updated_with_content = update_option( 'rtwcbfp_show_with_content', $with_content );
-        $updated_on_listing   = update_option( 'rtwcbfp_show_on_listing',   $on_listing );
-        $updated_in_related   = update_option( 'rtwcbfp_show_in_related',   $in_related );
+        $settings = array();
+        foreach ( $defaults as $placement => $default ) {
+            $value                  = isset( $input[ $placement ] ) ? sanitize_key( $input[ $placement ] ) : $default;
+            $settings[ $placement ] = in_array( $value, $valid, true ) ? $value : $default;
+        }
 
-        if ( $updated_word_count || $updated_with_title || $updated_with_content || $updated_on_listing || $updated_in_related ) {
-            wp_send_json_success( array( 'message' => __( 'Settings saved successfully.', 'reading-time-word-count-block-for-post' ) ) );
+        update_option( Reading_Time_Word_Count_Block_Post::OPTION_DISPLAY, $settings );
+
+        wp_send_json_success( array( 'message' => __( 'Settings saved successfully.', 'reading-time-word-count-block-for-post' ) ) );
+    }
+
+    /**
+     * Register the per-post display override meta box on the post and page editors.
+     *
+     * @since 1.0.0
+     */
+    public function add_meta_box()
+    {
+        foreach ( array( 'post', 'page' ) as $screen ) {
+            add_meta_box(
+                'rtwcbfp_display_metabox',
+                __( 'Reading Time', 'reading-time-word-count-block-for-post' ),
+                array( $this, 'render_meta_box' ),
+                $screen,
+                'side',
+                'default'
+            );
+        }
+    }
+
+    /**
+     * Render the per-post display override meta box.
+     *
+     * @param WP_Post $post The post being edited.
+     * @since 1.0.0
+     */
+    public function render_meta_box( $post )
+    {
+        wp_nonce_field( 'rtwcbfp_save_meta', 'rtwcbfp_meta_nonce' );
+        $value = get_post_meta( $post->ID, Reading_Time_Word_Count_Block_Post::META_DISPLAY, true );
+        require plugin_dir_path( __FILE__ ) . 'partials/reading-time-word-count-block-post-metabox.php';
+    }
+
+    /**
+     * Persist the per-post display override.
+     *
+     * @param int $post_id The post being saved.
+     * @since 1.0.0
+     */
+    public function save_meta_box( $post_id )
+    {
+        if (
+            ! isset( $_POST['rtwcbfp_meta_nonce'] ) ||
+            ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['rtwcbfp_meta_nonce'] ) ), 'rtwcbfp_save_meta' )
+        ) {
+            return;
+        }
+
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        $value = isset( $_POST['rtwcbfp_display_meta'] ) ? sanitize_key( wp_unslash( $_POST['rtwcbfp_display_meta'] ) ) : '';
+
+        // Any concrete mode is stored; anything else ('' / invalid) means "inherit".
+        if ( in_array( $value, Reading_Time_Word_Count_Block_Post::valid_modes(), true ) ) {
+            update_post_meta( $post_id, Reading_Time_Word_Count_Block_Post::META_DISPLAY, $value );
         } else {
-            wp_send_json_error( array( 'message' => __( 'No changes were made to the settings.', 'reading-time-word-count-block-for-post' ) ) );
+            delete_post_meta( $post_id, Reading_Time_Word_Count_Block_Post::META_DISPLAY );
         }
     }
 

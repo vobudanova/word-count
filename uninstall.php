@@ -32,9 +32,6 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// Clean up plugin options
-delete_option('rtwcbfp_show_word_count');
-delete_option('rtwcbfp_show_with_title');
-delete_option('rtwcbfp_show_with_content');
-delete_option('rtwcbfp_show_on_listing');
-delete_option('rtwcbfp_show_in_related');
+// Clean up the global display matrix and every per-post override.
+delete_option( 'rtwcbfp_display' );
+delete_post_meta_by_key( '_rtwcbfp_display' );

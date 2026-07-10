@@ -34,6 +34,59 @@ class Reading_Time_Word_Count_Block_Post
 {
 
     /**
+     * Option key storing the global display matrix (placement => mode).
+     */
+    const OPTION_DISPLAY = 'rtwcbfp_display';
+
+    /**
+     * Post-meta key storing a per-post display override.
+     */
+    const META_DISPLAY = '_rtwcbfp_display';
+
+    /**
+     * Default global display matrix.
+     *
+     * Placements: post_title, post_body, page_body, excerpt, related.
+     * Modes:      none | time | words | both.
+     *
+     * @return array
+     */
+    public static function default_display_settings()
+    {
+        return array(
+            'post_title' => 'none',
+            'post_body'  => 'both',
+            'page_body'  => 'none',
+            'excerpt'    => 'time',
+            'related'    => 'none',
+        );
+    }
+
+    /**
+     * The list of valid display modes.
+     *
+     * @return string[]
+     */
+    public static function valid_modes()
+    {
+        return array( 'none', 'time', 'words', 'both' );
+    }
+
+    /**
+     * The saved global display matrix, filled in with defaults for missing keys.
+     *
+     * @return array
+     */
+    public static function get_display_settings()
+    {
+        $saved = get_option( self::OPTION_DISPLAY, array() );
+        if ( ! is_array( $saved ) ) {
+            $saved = array();
+        }
+        return wp_parse_args( $saved, self::default_display_settings() );
+    }
+
+    /**
      * The loader that's responsible for maintaining and registering all hooks that power
      * the plugin.
      *
@@ -166,6 +219,8 @@ class Reading_Time_Word_Count_Block_Post
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_action('admin_menu', $plugin_admin, 'add_admin_menu');
         $this->loader->add_action('wp_ajax_rtwcbfp_save_settings', $plugin_admin, 'save_settings');
+        $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_meta_box');
+        $this->loader->add_action('save_post', $plugin_admin, 'save_meta_box');
         $this->loader->add_filter('plugin_action_links_' . RTWCBFP_PLUGIN_BASENAME, $plugin_admin, 'add_plugin_action_links');
     }
 
@@ -187,25 +242,12 @@ class Reading_Time_Word_Count_Block_Post
         // Register the shortcode properly
         $this->loader->add_action('init', $plugin_public, 'register_shortcodes');
 
-        // Retrieve plugin options
-        $show_with_title = get_option('rtwcbfp_show_with_title', 'yes');
-        $show_with_content = get_option('rtwcbfp_show_with_content', 'yes');
-        $show_on_listing = get_option('rtwcbfp_show_on_listing', 'yes');
-
-        // Conditionally add filters based on the options
-        if ($show_with_title === 'yes') {
-            $this->loader->add_filter('the_title', $plugin_public, 'add_reading_time_title_of_content', 10, 2);
-        }
-
-        if ($show_with_content === 'yes') {
-            $this->loader->add_filter('the_content', $plugin_public, 'add_reading_time_bottom_of_content');
-        }
-
-        if ($show_on_listing === 'yes') {
-            $this->loader->add_filter('the_excerpt', $plugin_public, 'add_reading_time_before_excerpt');
-        }
-
-
+        // Filters are always attached; each callback decides at render time what
+        // (if anything) to output, based on the global display matrix and any
+        // per-post override.
+        $this->loader->add_filter('the_title', $plugin_public, 'add_reading_time_to_title', 10, 2);
+        $this->loader->add_filter('the_content', $plugin_public, 'add_reading_time_to_content');
+        $this->loader->add_filter('the_excerpt', $plugin_public, 'add_reading_time_to_excerpt');
     }
 
 

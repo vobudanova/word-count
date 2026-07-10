@@ -118,20 +118,55 @@ public function register_shortcodes() {
      * Get the reading time HTML block.
      *
      * @param WP_Post|int|null $for_post Optional. Render for this specific post instead of the global one.
+     * @param string           $mode     What to render: 'time', 'words' or 'both'.
      * @return string
      */
-    private function get_reading_time_html( $for_post = null ) {
+    private function get_reading_time_html( $for_post = null, $mode = 'both' ) {
         $rtwcbfp_post = $for_post ? get_post( $for_post ) : null;
+        $rtwcbfp_mode = in_array( $mode, array( 'time', 'words', 'both' ), true ) ? $mode : 'both';
         ob_start();
         require plugin_dir_path(__FILE__) . 'partials/reading-time-word-count-block-post-public-display.php';
         return ob_get_clean();
     }
 
+    /**
+     * Resolve what to display for a given placement and post.
+     *
+     * Combines the global display matrix with a per-post override. The override
+     * (Variant A) applies only to a post's own single-view placements
+     * (post_title, post_body, page_body); listing and related placements always
+     * follow the global setting.
+     *
+     * @param string           $placement One of post_title|post_body|page_body|excerpt|related.
+     * @param WP_Post|int|null  $post      The post in question.
+     * @return string 'none' | 'time' | 'words' | 'both'
+     */
+    private function resolve_mode( $placement, $post ) {
+        $settings = Reading_Time_Word_Count_Block_Post::get_display_settings();
+        $mode     = isset( $settings[ $placement ] ) ? $settings[ $placement ] : 'none';
+
+        $single_view = array( 'post_title', 'post_body', 'page_body' );
+        if ( $post && in_array( $placement, $single_view, true ) ) {
+            $post_id  = $post instanceof WP_Post ? $post->ID : (int) $post;
+            $override = get_post_meta( $post_id, Reading_Time_Word_Count_Block_Post::META_DISPLAY, true );
+            if ( in_array( $override, Reading_Time_Word_Count_Block_Post::valid_modes(), true ) ) {
+                $mode = $override; // empty string ('inherit') falls through to the global value
+            }
+        }
+
+        return $mode;
+    }
+
 /**
  * Shortcode handler for reading time.
+ *
+ * @param array $atts Shortcode attributes. Supports show="both|time|words".
+ * @return string
  */
-public function rtwcbfp_shortcode_handler() {
-    return $this->get_reading_time_html();
+public function rtwcbfp_shortcode_handler( $atts ) {
+    $atts = shortcode_atts( array( 'show' => 'both' ), $atts, 'reading_time' );
+    $mode = in_array( $atts['show'], array( 'time', 'words', 'both' ), true ) ? $atts['show'] : 'both';
+    return $this->get_reading_time_html( null, $mode );
 }
 
 
@@ -139,43 +174,81 @@ public function rtwcbfp_shortcode_handler() {
 
 
     /**
-     * Add reading time before the post content on a single-post page.
+     * Add the block before the content of a single post or page.
+     *
+     * Posts use the `post_body` placement, pages use `page_body`; other post
+     * types are left untouched.
      *
      * @param string $content Post content.
      * @return string Modified content.
      */
-    public function add_reading_time_bottom_of_content( $content ) {
-        if ( is_singular() && in_the_loop() && is_main_query() ) {
-            return $this->get_reading_time_html() . $content;
+    public function add_reading_time_to_content( $content ) {
+        if ( ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+            return $content;
         }
-        return $content;
+
+        $post = get_post();
+        if ( ! $post ) {
+            return $content;
+        }
+
+        switch ( get_post_type( $post ) ) {
+            case 'post':
+                $placement = 'post_body';
+                break;
+            case 'page':
+                $placement = 'page_body';
+                break;
+            default:
+                return $content;
+        }
+
+        $mode = $this->resolve_mode( $placement, $post );
+        if ( 'none' === $mode ) {
+            return $content;
+        }
+
+        return $this->get_reading_time_html( $post, $mode ) . $content;
     }
 
     /**
-     * Add reading time before the excerpt on listing pages (home, archives).
+     * Add the block before the excerpt on listing pages (home, archives, search).
+     *
+     * Uses the global `excerpt` placement (per-post overrides do not apply here).
      *
      * @param string $excerpt Post excerpt.
      * @return string Modified excerpt.
      */
-    public function add_reading_time_before_excerpt( $excerpt ) {
+    public function add_reading_time_to_excerpt( $excerpt ) {
         if ( is_singular() || ! in_the_loop() || ! is_main_query() ) {
             return $excerpt;
         }
-        return $this->get_reading_time_html() . $excerpt;
+
+        $post = get_post();
+        if ( ! $post ) {
+            return $excerpt;
+        }
+
+        $mode = $this->resolve_mode( 'excerpt', $post );
+        if ( 'none' === $mode ) {
+            return $excerpt;
+        }
+
+        return $this->get_reading_time_html( $post, $mode ) . $excerpt;
     }
 
     /**
-     * Add reading time after the post title.
+     * Add the block after a post title.
      *
-     * By default fires only for the main post's own title on a singular page.
-     * If the `rtwcbfp_show_in_related` option is enabled, also fires for post
-     * titles rendered inside any loop (related posts, etc.).
+     * The main post's own title on its singular page uses the `post_title`
+     * placement (with per-post override). Post titles rendered inside secondary
+     * loops use the global `related` placement.
      *
      * @param string $title Post title.
      * @param int    $id    Post ID.
      * @return string Modified title.
      */
-    public function add_reading_time_title_of_content( $title, $id = null ) {
+    public function add_reading_time_to_title( $title, $id = null ) {
         if (
             is_admin()
             || ! in_the_loop()
@@ -185,19 +258,20 @@ public function rtwcbfp_shortcode_handler() {
             return $title;
         }
 
-        $is_main_post_title = is_main_query() && is_singular() && (int) $id === get_queried_object_id();
-        $show_in_related    = 'yes' === get_option( 'rtwcbfp_show_in_related', 'no' );
-
-        if ( ! $is_main_post_title && ! $show_in_related ) {
-            return $title;
-        }
-
         $post = get_post( $id );
         if ( ! $post || empty( $post->post_content ) ) {
             return $title;
         }
 
-        return $title . $this->get_reading_time_html( $post );
+        $is_main_post_title = is_main_query() && is_singular() && (int) $id === get_queried_object_id();
+        $placement          = $is_main_post_title ? 'post_title' : 'related';
+
+        $mode = $this->resolve_mode( $placement, $post );
+        if ( 'none' === $mode ) {
+            return $title;
+        }
+
+        return $title . $this->get_reading_time_html( $post, $mode );
     }
 
 

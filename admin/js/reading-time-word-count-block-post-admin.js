@@ -40,14 +40,16 @@
             return; // Cancelled by user
          }
 
-         // Collect every checkbox in the form by its `name`, so adding a new
-         // option to the HTML no longer requires touching this JS file.
+         // Collect every field in the form by its `name`, so adding a new
+         // placement to the HTML no longer requires touching this JS file.
+         // Select names use array notation (rtwcbfp_display[post_body]), which
+         // PHP parses back into $_POST['rtwcbfp_display'].
          const data = {
             action: "rtwcbfp_save_settings",
             nonce: $("#rtwcbfp_settings_nonce_field").val(),
          };
-         $("#rtwcbfp-settings-form input[type=checkbox][name]").each(function () {
-            data[this.name] = this.checked ? "yes" : "no";
+         $("#rtwcbfp-settings-form select[name]").each(function () {
+            data[this.name] = this.value;
          });
 
          $.post(ajaxurl, data, function (response) {

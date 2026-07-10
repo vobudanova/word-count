@@ -35,11 +35,20 @@ class Reading_Time_Word_Count_Block_Post_Activator
      */
     public static function activate()
     {
-        // Save default options
-        add_option('rtwcbfp_show_word_count', 'yes');
-        add_option('rtwcbfp_show_with_title', 'yes');
-        add_option('rtwcbfp_show_with_content', 'yes');
-
+        // Seed the default display matrix on first activation only, so an
+        // existing site's saved settings are never overwritten.
+        if ( false === get_option( 'rtwcbfp_display' ) ) {
+            add_option(
+                'rtwcbfp_display',
+                array(
+                    'post_title' => 'none',
+                    'post_body'  => 'both',
+                    'page_body'  => 'none',
+                    'excerpt'    => 'time',
+                    'related'    => 'none',
+                )
+            );
+        }
     }
 
 }

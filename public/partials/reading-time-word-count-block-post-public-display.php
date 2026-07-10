@@ -15,8 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Prevent output on admin pages or secondary queries.
-if ( is_admin() || ! is_main_query() ) {
+// Never render in the admin. Front-end gating (which context, what to show) is
+// handled by the caller; this template only renders what it is asked to.
+if ( is_admin() ) {
     return;
 }
 
@@ -32,8 +33,10 @@ if ( ! $post ) {
     return;
 }
 
-// Optional setting: whether to show word count (default: yes)
-$show_word_count = get_option( 'rtwcbfp_show_word_count', 'yes' );
+// What to render: 'time', 'words' or 'both'. Set by get_reading_time_html().
+$rtwcbfp_mode = isset( $rtwcbfp_mode ) && in_array( $rtwcbfp_mode, array( 'time', 'words', 'both' ), true ) ? $rtwcbfp_mode : 'both';
+$show_time    = in_array( $rtwcbfp_mode, array( 'time', 'both' ), true );
+$show_words   = in_array( $rtwcbfp_mode, array( 'words', 'both' ), true );
 
 // Calculate word count and reading time.
 // Strip layers a reader never sees, so they don't pad the count:
@@ -61,12 +64,14 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) ); // Average reading sp
 ?>
 <!-- Reading Time & Word Count Display Block -->
 <div class="count-word-wrapper" style="margin-bottom: 10px; font-size: 0.9em; color: #555;">
-    <p><b><?php
-        /* translators: %s: reading time in minutes. */
-        echo esc_html( sprintf( __( '%s min read', 'reading-time-word-count-block-for-post' ), number_format_i18n( $reading_time ) ) );
-    ?></b></p>
+    <?php if ( $show_time ) : ?>
+        <p><b><?php
+            /* translators: %s: reading time in minutes. */
+            echo esc_html( sprintf( __( '%s min read', 'reading-time-word-count-block-for-post' ), number_format_i18n( $reading_time ) ) );
+        ?></b></p>
+    <?php endif; ?>
 
-    <?php if ( 'yes' === $show_word_count ) : ?>
+    <?php if ( $show_words ) : ?>
         <p><?php
             printf(
                 /* translators: %s: number of words. */
